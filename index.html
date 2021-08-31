@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>scoreIt.js | indice de proximité des chaînes de caractère</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <a class="dl" href="lib/scoreIt.js" download>télécharger</a>
+    
+    <header>
+
+        <h1>scoreIt<span>.js</span></h1>
+
+        <div class="desc card">
+            <h2>C'est quoi ?</h2>
+            <p>
+                scoreIt.js est une librairie très légère qui permet d'attibuer un score de proximité entre une chaine de caractère et une liste donnée.
+            </p>
+        </div>
+
+    </header>
+
+    <main>
+
+        <h2>Documentation</h2>
+
+        <h3>Téléchargement</h3>
+
+        <pre>
+https://scoreit.aicardi.pro/lib/scoreit.js</pre>
+
+        <h3>La fonction</h3>
+
+        <pre>
+<span class="bl">let</span> array = <span class="y">scoreIt</span>(value, object, options);
+<span class="c"> -> retourne "object" sous la forme d'un tableau
+ -> trié par score décroissant</span></pre>
+
+        <h3>Les arguments</h3>
+
+        <pre>
+<span class="bl">let</span> value = <span class="b">"value"</span>;<span class="c"> -> la chaine de caractère de réference</span>
+
+<span class="bl">let</span> object = [] || {};
+<span class="c"> -> un objet/tableau contenant des chaines de caractère</span>
+<span class="c"> -> un objet/tableau contenant d'autres objets/tableaux</span>
+
+<span class="bl">let</span> options = {
+    path: []<span class="c"> -> un tableau représentant le chemin vers la chaine</span>
+    sortKey: <span class="bl">false</span><span class="c"> -> si c'est la clé d'index qui doit être utilisée</span>
+};</pre>
+
+    <h3>Object & Path</h3>
+
+    <pre>
+<span class="bl">let</span> object = [
+    <span class="b">"manger des pommes"</span>,
+    <span class="b">"manger des poires"</span>,
+    <span class="b">"manger des prunes"</span>
+];
+
+<span class="bl">let</span> options.path = [];
+<span class="c"> -> on va chercher la chaine à object[i]</span></pre>
+
+<pre>
+<span class="bl">let</span> object = [
+    { data: { nom: <span class="b">"manger des pommes"</span>, short: <span class="b">"pommes"</span> },
+      prix: <span class="n">10</span> },
+
+    { data: { nom: <span class="b">"manger des poires"</span>, short: <span class="b">"poires"</span> },
+      prix: <span class="n">20</span> },
+
+    { data: { nom: <span class="b">"manger des prunes"</span>, short: <span class="b">"prunes"</span> },
+      prix: <span class="n">30</span> }
+];
+
+<span class="bl">let</span> options.path = [<span class="b">"data"</span>, <span class="b">"nom"</span>];
+<span class="c"> -> on va chercher la chaine à : object[i].data.nom</span></pre>
+
+<pre>
+<span class="bl">let</span> object = [
+    [<span class="b">"manger des pommes"</span>],
+    [<span class="b">"manger des poires"</span>],
+    [<span class="b">"manger des prunes"</span>]
+];
+
+<span class="bl">let</span> options.path = [<span class="n">0</span>];
+<span class="c"> -> on va chercher la chaine à object[i][0]</span></pre>
+
+<pre>
+<span class="bl">let</span> object = {
+    <span class="b">"manger des pommes"</span>: [],
+    <span class="b">"manger des poires"</span>: [],
+    <span class="b">"manger des prunes"</span>: []
+};
+
+<span class="bl">let</span> options.sortKey = <span class="bl">true</span>;
+<span class="c"> -> la chaine correspond à : key in object</span></pre>
+
+    <h3>La valeur retour</h3>
+
+<pre>
+<span class="c"> -> scoreIt() retourne un tableau d'objets</span>
+<span class="bl">let</span> array = <span class="y">scoreIt</span>(value, object, options);
+
+array = [ {obj}, {obj}, {obj}, ... ];
+
+array[i] || obj = 
+{
+    score: <span class="n">56</span><span class="c"> -> score de la chaine évaluée (min = 0, max = 100)</span>,
+    obj: {}<span class="c"> -> objet englobant la chaine évaluée (avant options.path)</span>,
+    str: <span class="b">"manger des pommes"</span><span class="c"> -> la chaine évaluée (après options.path)</span>,
+    key: <span class="b">"key"</span><span class="c"> -> la propriété d'entrée dans le cas d'un objet</span>,
+    id: <span class="n">0</span><span class="c"> -> l'index de la chaine dans le tableau original</span>
+}
+</pre>
+
+    <h3>Afficher les résultats</h3>
+
+<pre>
+<span class="bl">for </span>(<span class="bl">var</span> i=<span class="n">0</span>; i&lt;array.length; i++){
+
+    <span class="c"> -> afin d'éviter d'afficher tout les éléments
+     -> on affiche que ceux au dessus d'un certain score</span>
+    <span class="bl">if </span>(array[i].score &lt; <span class="n">50</span>) { i=array.length; <span class="bl">continue</span>; }
+
+    <span class="bl">var </span>data = array[i].obj;
+
+    <span class="c"> -> ... afficher le résultat (dans le DOM ou ailleurs)</span>
+
+}</pre>
+
+    </main>
+
+    <section>
+        <main class="g">
+
+            <h2>Démo</h2>
+
+            <input class="card" type="text" placeholder="Rechercher..." onkeyup="search(event);">
+
+            <nav>
+            </nav>
+
+        </main>
+    </section>
+
+    <footer>
+        <p>Alimenté en fruits 🥝 par <a href="https://enzo.aicardi.pro">Enzo Aicardi</a> - <a href="https://aicardi.pro">aicardi.pro</a> &copy;<sup> 2021</sup></p>
+    </footer>
+
+    <script src="lib/scoreIt.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
