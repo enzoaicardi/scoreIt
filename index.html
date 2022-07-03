@@ -52,7 +52,10 @@ https://scoreit.aicardi.pro/lib/scoreit.js</pre>
 
 <span class="bl">let</span> options = {
     path: []<span class="c"> -> un tableau représentant le chemin vers la chaine</span>
+    sort: <span class="bl">true</span><span class="c"> -> si le tableau final doit être trié selon les scores</span>
     sortKey: <span class="bl">false</span><span class="c"> -> si c'est la clé d'index qui doit être utilisée</span>
+    scoreMin: <span class="bl">0</span><span class="c"> -> le score minimal pour figurer dans le tableau des scores</span>
+    scoreMax: <span class="bl">100</span><span class="c"> -> le score maximal pour figurer dans le tableau des scores</span>
 };</pre>
 
     <h3>Object & Path</h3>
@@ -124,10 +127,6 @@ array[i] || obj =
 
 <pre>
 <span class="bl">for </span>(<span class="bl">var</span> i=<span class="n">0</span>; i&lt;array.length; i++){
-
-    <span class="c"> -> afin d'éviter d'afficher tout les éléments
-     -> on affiche que ceux au dessus d'un certain score</span>
-    <span class="bl">if </span>(array[i].score &lt; <span class="n">50</span>) { i=array.length; <span class="bl">continue</span>; }
 
     <span class="bl">var </span>data = array[i].obj;
 
